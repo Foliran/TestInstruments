@@ -12,12 +12,7 @@ public:
     keithleyTSPPulse(std::shared_ptr<GPIB> gpibNew);
     void openSystem();
     bool isOpen();
-    void setCurrentCore(double setpoint);
-    //void setCurrentSweepCore(double start, double end, double rate);
-    //void setCurrentPulseCore(double start, double end, double rate);
-    std::pair<double, double> setPulseAndMeasure(double value, double pWidth);
-    double getCurrentCore();
-    double getVoltageCore();
+    std::pair<double, double> setPulseAndMeasure(double value, double pWidth, double ratio);
 
 
 private:
