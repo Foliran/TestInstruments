@@ -20,7 +20,7 @@ node[2].smua.nvbuffer1.collectsourcevalues = 1
 --------------------------------------------------
 -- timer[1] steuert die Pulsweite
 -- timer[2] steuert den Zeitpunkt der Messung
--- timer[3] soll stueren, wann der Puls anfängt
+-- timer[3] soll steuren, wann der Puls anfängt
 
 node[2].trigger.timer[1].reset()
 node[2].trigger.timer[1].count = 1 
@@ -31,7 +31,7 @@ node[2].trigger.timer[1].clear()
 node[2].trigger.timer[2].reset()
 node[2].trigger.timer[2].count = 1  
 node[2].trigger.timer[2].passthrough = false 
-node[2].trigger.timer[2].stimulus = node[2].smua.trigger.ARMED_EVENT_ID
+node[2].trigger.timer[2].stimulus = node[2].smua.trigger.ARMED_EVENT_ID--node[2].trigger.timer[3].EVENT_ID
 node[2].trigger.timer[2].clear() 
 
 --timer[3] wird getriggert, wenn SMU aus der Armlayer kommt und triggert dann die anderen beiden Trigger,
@@ -39,13 +39,13 @@ node[2].trigger.timer[2].clear()
 node[2].trigger.timer[3].count = 1  
 node[2].trigger.timer[3].passthrough = false 
 node[2].trigger.timer[3].stimulus = node[2].smua.trigger.ARMED_EVENT_ID
-node[2].trigger.timer[3].delay = 0.02
+node[2].trigger.timer[3].delay = 0.1
 node[2].trigger.timer[3].clear() 
 
 node[2].smua.trigger.measure.stimulus = node[2].trigger.timer[1].EVENT_ID 
 node[2].smua.trigger.source.limiti = 1
 node[2].smua.trigger.measure.action = node[2].smua.ENABLE
-node[2].smua.trigger.measure.v(node[2].smua.nvbuffer1) 
+node[2].smua.trigger.measure.i(node[2].smua.nvbuffer1) 
 node[2].smua.trigger.endpulse.action = node[2].smua.SOURCE_IDLE 
 node[2].smua.trigger.endpulse.stimulus = node[2].trigger.timer[1].EVENT_ID 
 node[2].smua.trigger.count = 1 
@@ -68,6 +68,7 @@ node[1].dmm.measure.autozero.enable = 0
 node[1].dmm.measure.nplc = 1.0
 node[1].dmm.measure.count = 1 
 node[1].dmm.measure.autodelay = node[1].dmm.DELAY_OFF
+node[1].dmm.measure.range = 100e-3
 
 node[1].execute("trigger.model.load('EMPTY')"..'trigger.model.setblock(1, node[1].trigger.BLOCK_WAIT, node[1].trigger.EVENT_TSPLINK1)'..'trigger.model.setblock(2, node[1].trigger.BLOCK_MEASURE_DIGITIZE, node[1].defbuffer1)')
 waitcomplete(2)
